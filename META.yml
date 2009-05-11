@@ -1,0 +1,12 @@
+---
+abstract: deal with linear, variable rates of increase
+author:
+- Ricardo SIGNES <rjbs@cpan.org>
+generated_by: Dist::Zilla::Plugin::MetaYaml version 1.091260
+license: perl
+name: Math-VarRate
+requires:
+  Scalar::Util: '0'
+resources:
+  repository: http://github.com/rjbs/math-varrate/tree
+version: '0.091310'
