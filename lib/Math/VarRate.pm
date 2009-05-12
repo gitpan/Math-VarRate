@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Math::VarRate;
-our $VERSION = '0.091310';
+our $VERSION = '0.091320';
 
 # ABSTRACT: deal with linear, variable rates of increase
 
@@ -13,7 +13,10 @@ sub new {
   my ($class, $arg) = @_;
 
   my $changes = $arg->{rate_changes} || {};
-  my $self = bless { rate_changes => $changes }  => $class;
+  my $self = bless {
+    rate_changes   => $changes,
+    starting_value => $arg->{starting_value} || 0,
+  } => $class;
 
   $self->_sanity_check_rate_changes;
   $self->_precompute_offsets;
@@ -32,20 +35,20 @@ sub _sanity_check_rate_changes {
 
   while (my ($k, $v) = each %check) {
     Carp::confess("non-numeric $k are not allowed")
-      if grep { ! Scalar::Util::looks_like_number($_) } @$v;
+      if grep { ! Scalar::Util::looks_like_number("$_") } @$v;
     Carp::confess("negative $k are not allowed") if grep { $_ < 0 } @$v;
   }
 }
 
 
-sub starting_value { 0 }
+sub starting_value { $_[0]->{starting_value} || 0 }
 
 
 sub offset_for {
   my ($self, $value) = @_;
 
   Carp::croak("illegal value: non-numeric")
-    unless Scalar::Util::looks_like_number($value);
+    unless Scalar::Util::looks_like_number("$value");
 
   Carp::croak("illegal value: negative") unless $value >= 0;
 
@@ -55,6 +58,8 @@ sub offset_for {
 
   my $ko       = $self->{known_offsets};
   my ($offset) = sort { $b <=> $a } grep { $ko->{ $_ } < $value } keys %$ko;
+
+  return unless defined $offset;
 
   my $rate     = $self->{rate_changes}{ $offset };
 
@@ -72,7 +77,7 @@ sub value_at {
   my ($self, $offset) = @_;
 
   Carp::croak("illegal offset: non-numeric")
-    unless Scalar::Util::looks_like_number($offset);
+    unless Scalar::Util::looks_like_number("$offset");
 
   Carp::croak("illegal offset: negative") unless $offset >= 0;
 
@@ -127,7 +132,7 @@ Math::VarRate - deal with linear, variable rates of increase
 
 =head1 VERSION
 
-version 0.091310
+version 0.091320
 
 =head1 DESCRIPTION
 
@@ -148,12 +153,12 @@ have first been accumulated.
 
 Valid arguments to C<new> are:
 
-    rate_changes - a hashref in which keys are offsets and values are rates
+    rate_changes   - a hashref in which keys are offsets and values are rates
+    starting_value - the value at offset 0 (defaults to 0)
 
 =head2 starting_value
 
-The starting value of the accumulator.  At present, it is fixed at zero and
-non-zero starting values have not been tested.
+This method returns the value of the accumulator at offset 0.
 
 =head2 offset_for
 

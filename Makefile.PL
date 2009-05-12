@@ -9,7 +9,7 @@ WriteMakefile(
   NAME      => 'Math::VarRate',
   AUTHOR    => 'Ricardo\ SIGNES\ \<rjbs\@cpan\.org\>',
   ABSTRACT  => 'deal with linear, variable rates of increase',
-  VERSION   => '0.091310',
+  VERSION   => '0.091320',
   EXE_FILES => [ qw() ],
   (eval { ExtUtils::MakeMaker->VERSION(6.21) } ? (LICENSE => 'perl') : ()),
   PREREQ_PM    => {
