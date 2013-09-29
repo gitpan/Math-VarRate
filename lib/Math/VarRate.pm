@@ -1,8 +1,9 @@
 use strict;
 use warnings;
 package Math::VarRate;
-our $VERSION = '0.091320';
-
+{
+  $Math::VarRate::VERSION = '0.100000';
+}
 # ABSTRACT: deal with linear, variable rates of increase
 
 use Carp ();
@@ -132,7 +133,7 @@ Math::VarRate - deal with linear, variable rates of increase
 
 =head1 VERSION
 
-version 0.091320
+version 0.100000
 
 =head1 DESCRIPTION
 
@@ -149,12 +150,12 @@ have first been accumulated.
 
 =head2 new
 
-    my $varrate = Math::VarRate->new(\%arg);
+  my $varrate = Math::VarRate->new(\%arg);
 
 Valid arguments to C<new> are:
 
-    rate_changes   - a hashref in which keys are offsets and values are rates
-    starting_value - the value at offset 0 (defaults to 0)
+  rate_changes   - a hashref in which keys are offsets and values are rates
+  starting_value - the value at offset 0 (defaults to 0)
 
 =head2 starting_value
 
@@ -162,28 +163,26 @@ This method returns the value of the accumulator at offset 0.
 
 =head2 offset_for
 
-    my $offset = $varrate->offset_for($value);
+  my $offset = $varrate->offset_for($value);
 
 This method returns the offset (positive, from 0) at which the given value is
 reached.  If the given value will never be reached, undef will be returned.
 
 =head2 value_at
 
-    my $value = $varrate->value_at($offset);
+  my $value = $varrate->value_at($offset);
 
 This returns the value in the accumulator at the given offset.
 
 =head1 AUTHOR
 
-  Ricardo SIGNES <rjbs@cpan.org>
+Ricardo SIGNES <rjbs@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2009 by Ricardo SIGNES.
+This software is copyright (c) 2013 by Ricardo SIGNES.
 
 This is free software; you can redistribute it and/or modify it under
-the same terms as perl itself.
+the same terms as the Perl 5 programming language system itself.
 
-=cut 
-
-
+=cut
